@@ -12,6 +12,7 @@ interface Configuration extends WebpackConfiguration {
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
+// @ts-ignore
 const config: Configuration = {
   name: 'sleact',
   mode: isDevelopment ? 'development' : 'production',
@@ -86,6 +87,14 @@ const config: Configuration = {
     //     changeOrigin: true,
     //   },
     // },
+
+    proxy: [
+      {
+        context: ['/api'], // 이 부분 수정
+        target: 'http://localhost:3095',
+        changeOrigin: true,
+      },
+    ],
   },
 };
 
