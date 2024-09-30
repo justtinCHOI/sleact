@@ -12,7 +12,6 @@ interface Configuration extends WebpackConfiguration {
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
-// @ts-ignore
 const config: Configuration = {
   name: 'sleact',
   mode: isDevelopment ? 'development' : 'production',
@@ -105,7 +104,7 @@ if (isDevelopment && config.plugins) {
 }
 if (!isDevelopment && config.plugins) {
   config.plugins.push(new webpack.LoaderOptionsPlugin({ minimize: true }));
-  config.plugins.push(new BundleAnalyzerPlugin({ analyzerMode: 'static' }));
+  config.plugins.push(new BundleAnalyzerPlugin({ analyzerMode: 'static' })); // html 로 정리
 }
 
 export default config;

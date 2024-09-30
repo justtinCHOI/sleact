@@ -6,6 +6,7 @@ interface Props {
   onCloseModal: () => void;
 }
 const Modal: FC<Props> = ({ show, children, onCloseModal }) => {
+  // 부모테그로 이벤트가 버블링이 안된다.
   const stopPropagation = useCallback((e) => {
     e.stopPropagation();
   }, []);

@@ -60,6 +60,7 @@ const Channel = () => {
           });
           return prevChatData;
         }, false).then(() => {
+          localStorage.setItem(`${workspace}-${channel}`, new Date().getTime().toString());
           setChat('');
           scrollbarRef.current?.scrollToBottom();
         });
@@ -108,6 +109,10 @@ const Channel = () => {
     };
   }, [socket, onMessage]);
 
+  useEffect(() => {
+    localStorage.setItem(`${workspace}-${channel}`, new Date().getTime().toString());
+  }, [workspace, channel]);
+
   // 로딩 시 스크롤바 제일 아래로
   useEffect(() => {
     if (chatData?.length === 1) {
@@ -127,18 +132,20 @@ const Channel = () => {
     setShowInviteChannelModal(false);
   }, []);
 
-  const onChangeFile = useCallback((e) => {
-    const formData = new FormData();
-    if (e.target.files) {
-      // Use DataTransferItemList interface to access the file(s)
-      for (let i = 0; i < e.target.files.length; i++) {
-        const file = e.target.files[i].getAsFile();
-        console.log('... file[' + i + '].name = ' + file.name);
-        formData.append('image', file);
-      }
-    }
-    axios.post(`/api/workspaces/${workspace}/channels/${channel}/images`, formData).then(() => {});
-  }, []);
+  // const onChangeFile = useCallback((e) => {
+  //   const formData = new FormData();
+  //   if (e.target.files) {
+  //     // Use DataTransferItemList interface to access the file(s)
+  //     for (let i = 0; i < e.target.files.length; i++) {
+  //       const file = e.target.files[i].getAsFile();
+  //       console.log('... file[' + i + '].name = ' + file.name);
+  //       formData.append('image', file);
+  //     }
+  //   }
+  //   axios.post(`/api/workspaces/${workspace}/channels/${channel}/images`, formData).then(() => {});
+  // }, []);
+
+  // <input type="file" multiple onChange={onChangeFile} />
 
   const onDrop = useCallback(
     (e) => {
@@ -164,6 +171,7 @@ const Channel = () => {
       }
       axios.post(`/api/workspaces/${workspace}/channels/${channel}/images`, formData).then(() => {
         setDragOver(false);
+        localStorage.setItem(`${workspace}-${channel}`, new Date().getTime().toString());
       });
     },
     [workspace, channel],
